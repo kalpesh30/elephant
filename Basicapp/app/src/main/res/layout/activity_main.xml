@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout">
+
+        <EditText
+            android:id="@+id/et_operand1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/Operand1"
+            android:inputType="numberDecimal" />
+
+        <Spinner
+            android:id="@+id/spi_operator"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+            android:layout_weight="2"
+            android:gravity="center" />
+
+        <EditText
+            android:id="@+id/et_operand2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="@string/Operand2"
+            android:inputType="numberDecimal" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/but1"
+        android:layout_width="wrap_content"
+        android:layout_height="56dp"
+        android:layout_below="@+id/linearLayout"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:text="Calculate" />
+
+    <TextView
+        android:id="@+id/tv_result"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/but1"
+        android:layout_marginTop="31dp"
+        android:gravity="center"
+        tools:text="Output" />
+
+
+</RelativeLayout>

@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Basic app</string>
+    <string name="Operand1">Operand 1</string>
+    <string name="Operand2">Operand 2</string>
+    <string-array name="Operators">
+        <item>+</item>
+        <item>-</item>
+        <item>*</item>
+        <item>/</item>
+        <item>%</item>
+        <item>^</item>
+
+    </string-array>
+</resources>
