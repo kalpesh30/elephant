@@ -6,53 +6,48 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.graphics.Color;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
-import static android.graphics.Color.*;
 
 /**
- * Created by Kalpesh Gupta on 30-01-2018.
+ * Created by Kalpesh Gupta on 03-02-2018.
  */
 
 public class NotificationHelper extends ContextWrapper {
-    private static final String my_channel_id = "com.example.kalpeshgupta.basicapp.multlip";
-    private static final String my_channel_name = "Mult channel";
     private NotificationManager manager;
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public NotificationHelper(Context base){
-        super(base);
-        createChannels();
+    public static final String Primary_Channel = "defaullt";
+
+    public NotificationHelper(Context ctx)
+    {
+        super(ctx);
+
+        NotificationChannel chan1 = new NotificationChannel(Primary_Channel,
+                "Primary Channel",NotificationManager.IMPORTANCE_HIGH);
+        chan1.setLightColor(Color.GREEN);
+        chan1.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
+        getManager().createNotificationChannel(chan1);
     }
 
-
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void createChannels() {
-        NotificationChannel myChannel = new NotificationChannel(my_channel_id,my_channel_name,NotificationManager.IMPORTANCE_DEFAULT);
-        myChannel.enableLights(true);
-        myChannel.setLightColor(GREEN);
-        myChannel.enableVibration(true);
-        myChannel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
-        getManager();
-
-
-    }
-
-    public NotificationManager getManager() {
-        if(manager == null)
-            manager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-        return manager;
-
-    }
-
-    //@Override
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public Notification.Builder getApplicationNotif(String title, String body) {
-        return new Notification.Builder(NotificationHelper.this,my_channel_id)
+    public Notification.Builder getNotification1(String title,String body)
+    {
+        return new Notification.Builder(getApplicationContext(),Primary_Channel)
+                .setContentTitle(title)
                 .setContentText(body)
-                .setContentTitle(title);
+                .setSmallIcon(getSmallIcon())
+                .setAutoCancel(true);
 
+    }
 
+    public void Notify(int id,Notification.Builder notification)
+    {
+        getManager().notify(id,notification.build());
+    }
+
+    private NotificationManager getManager() {
+        if(manager == null)
+            manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        return manager;
+    }
+
+    private int getSmallIcon() {
+        return android.R.drawable.stat_notify_sync;
     }
 }

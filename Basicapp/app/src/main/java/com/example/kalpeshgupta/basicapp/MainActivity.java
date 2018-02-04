@@ -32,6 +32,13 @@ import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static final int n1 = 1100;
+    private static final int n2 = 1101;
+    private static final int n3= 1102;
+    private static final int n4 = 1103 ;
+    private static final int n5 = 1104;
+    private static final int n6 = 1105;
+
     private String Operand1;
     private String Operand2;
 
@@ -58,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
     EditText etoperand1;
     EditText etoperand2;
     String title,body;
-    Spinner myspin;
-    NotificationHelper helper;
+    //Spinner myspin;
+    private NotificationHelper helper;
 
 
 
@@ -75,73 +82,65 @@ public class MainActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
         btn = findViewById(R.id.but1);
         //myspin = findViewById(R.id.spi_operator);
+        helper = new NotificationHelper(this);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                btn.setVisibility(View.INVISIBLE);
-            String text = spinner.getSelectedItem().toString();
+                //btn.setVisibility(View.INVISIBLE);
+                String text = spinner.getSelectedItem().toString();
 
-            getInput();
-            switch(text)
-            {
-                case "+" : tvCalculate.setText(getSum().toString()); break;
-                case "-" : tvCalculate.setText(getsubtract().toString());break;
-                case "*" : tvCalculate.setText(getmultiply().toString());break;
-                case "/" : tvCalculate.setText(getdivide().toString());break;
-                case "%" : tvCalculate.setText(getmodulo().toString());break;
-                case "^" : tvCalculate.setText(getpower().toString());break;
-            }
-
-                // prepare intent which is triggered if the
-// notification is selected
-
-                Intent intent = new Intent(this, NotificationReceiver.class);
-// use System.currentTimeMillis() to have a unique ID for the pending intent
-                PendingIntent pIntent = PendingIntent.getActivity(this, (int) System.currentTimeMillis(), intent, 0);
-
-// build notification
-// the addAction re-use the same intent to keep the example short
-                Notification n  = new Notification.Builder(this)
-                        .setContentTitle("New mail from " + "test@gmail.com")
-                        .setContentText("Subject")
-                        .setSmallIcon(R.drawable.icon)
-                        .setContentIntent(pIntent)
-                        .setAutoCancel(true)
-                        .addAction(R.drawable.icon, "Call", pIntent)
-                        .addAction(R.drawable.icon, "More", pIntent)
-                        .addAction(R.drawable.icon, "And more", pIntent).build();
-
-
-                NotificationManager notificationManager =
-                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-                notificationManager.notify(0, n);
-
-               /* NotificationManager mNotificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                // The id of the channel.
-                String id = "my_channel_01";
-                // The user-visible name of the channel.
-                CharSequence name = getString(R.string.channel_name);
-                // The user-visible description of the channel.
-                String description = getString(R.string.channel_description);
-                int importance = NotificationManager.IMPORTANCE_HIGH;
-                NotificationChannel mChannel = new NotificationChannel(id, name, importance);
-                /       / Configure the notification channel.
-                mChannel.setDescription(description);
-                mChannel.enableLights(true);
-            // Sets the notification light color for notifications posted to this
-            // channel, if the device supports this feature.
-                mChannel.setLightColor(Color.RED);
-                mChannel.enableVibration(true);
-                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-                mNotificationManager.createNotificationChannel(mChannel);*/
-
+                getInput();
+                switch (text) {
+                    case "+":
+                        tvCalculate.setText(getSum().toString());
+                        sendNotification(n1,"Addition",getOperand1() + "+" + getOperand2() + " = " + resultexp());
+                        break;
+                    case "-":
+                        tvCalculate.setText(getsubtract().toString());
+                        sendNotification(n2,"Substraction",getOperand1() + "-" + getOperand2() + " = " + resultexp());
+                        break;
+                    case "*":
+                        tvCalculate.setText(getmultiply().toString());
+                        sendNotification(n3,"Multiplication",getOperand1() + "*" + getOperand2() + " = " + resultexp());
+                        break;
+                    case "/":
+                        tvCalculate.setText(getdivide().toString());
+                        sendNotification(n4,"Division",getOperand1() + "/" + getOperand2() + " = " + resultexp());
+                        break;
+                    case "%":
+                        tvCalculate.setText(getmodulo().toString());
+                        sendNotification(n5,"modulo",getOperand1() + "%" + getOperand2() + " = " + resultexp());
+                        break;
+                    case "^":
+                        tvCalculate.setText(getpower().toString());
+                        sendNotification(n6,"power",getOperand1() + "^" + getOperand2() + " = " + resultexp());
+                        break;
+                }
 
             }
         });
+
+
         etoperand1 = findViewById(R.id.et_operand1);
         etoperand2 = findViewById(R.id.et_operand2);
+    }
+
+    public void sendNotification(int id,String title,String body){
+        try{
+            Notification.Builder nb = helper.getNotification1("Operation Performed" + title,body);
+            if(nb != null) {
+                helper.Notify(id,nb);
+            }
+        }catch(NullPointerException npe){
+            npe.printStackTrace();
+        }
+    }
+
+    private String resultexp()
+    {
+        String s;
+        s = tvCalculate.getText().toString();
+        return s;
     }
 
     public void getInput()
@@ -151,28 +150,6 @@ public class MainActivity extends AppCompatActivity {
             setOperand2(etoperand2.getText().toString());
     }
 
-    /*public void pOperands(View view)
-    {
-
-        TextView tvCalculate = findViewById(R.id.tv_result);
-        tvCalculate.setText(getOperand1() + " " + getOperand2());
-
-    }*/
-
-    //@Override
-    /*public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-        TextView tvCalculate = findViewById(R.id.tv_result);
-        Log.v("Spinner value selected","adapter view ");
-        switch(adapterView.getItemAtPosition(position).toString()){
-            case "+" : tvCalculate.setText(getSum().toString()); break;
-            case "-" : tvCalculate.setText(getsubtract().toString());break;
-            case "*" : tvCalculate.setText(getmultiply().toString());break;
-            case "/" : tvCalculate.setText(getdivide().toString());break;
-            case "%" : tvCalculate.setText(getmodulo().toString());break;
-            case "^" : tvCalculate.setText(getpower().toString());break;
-        }
-
-    }*/
 
     private Double getSum(){
         return (Double.valueOf(getOperand1()) + Double.valueOf(getOperand2()));
