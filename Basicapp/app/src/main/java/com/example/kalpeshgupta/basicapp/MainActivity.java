@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void sendNotification(int id,String title,String body){
         try{
-            Notification.Builder nb = helper.getNotification1("Operation Performed" + title,body);
+            Notification.Builder nb = helper.getNotification1(title +" Operation Performed",body);
             if(nb != null) {
                 helper.Notify(id,nb);
             }
