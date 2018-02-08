@@ -29,6 +29,7 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.nio.channels.Channel;
 import java.util.Random;
+import java.lang.Math;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,16 +47,15 @@ public class MainActivity extends AppCompatActivity {
 
     Button btn;
 
-    public String getOperand1() {
-        return Operand1;
+    public Double getOperand1() {return Double.valueOf(Operand1);
     }
 
     public void setOperand1(String operand1) {
         Operand1 = operand1;
     }
 
-    public String getOperand2() {
-        return Operand2;
+    public Double getOperand2() {
+        return Double.valueOf(Operand2);
     }
 
     public void setOperand2(String operand2) {
@@ -92,28 +92,28 @@ public class MainActivity extends AppCompatActivity {
                 getInput();
                 switch (text) {
                     case "+":
-                        tvCalculate.setText(getSum().toString());
-                        sendNotification(n1,"Addition",getOperand1() + "+" + getOperand2() + " = " + resultexp());
+                        getSum();
+                        sendNotification(n1,"Addition",getOperand1().toString() + "+" + getOperand2().toString() + " = " + resultexp());
                         break;
                     case "-":
-                        tvCalculate.setText(getsubtract().toString());
-                        sendNotification(n2,"Substraction",getOperand1() + "-" + getOperand2() + " = " + resultexp());
+                        getsubtract();
+                        sendNotification(n2,"Substraction",getOperand1().toString() + "-" + getOperand2().toString() + " = " + resultexp());
                         break;
                     case "*":
-                        tvCalculate.setText(getmultiply().toString());
-                        sendNotification(n3,"Multiplication",getOperand1() + "*" + getOperand2() + " = " + resultexp());
+                        getmultiply();
+                        sendNotification(n3,"Multiplication",getOperand1().toString() + "*" + getOperand2().toString() + " = " + resultexp());
                         break;
                     case "/":
-                        tvCalculate.setText(getdivide().toString());
-                        sendNotification(n4,"Division",getOperand1() + "/" + getOperand2() + " = " + resultexp());
+                        getdivide();
+                        sendNotification(n4,"Division",getOperand1().toString() + "/" + getOperand2().toString() + " = " + resultexp());
                         break;
                     case "%":
-                        tvCalculate.setText(getmodulo().toString());
-                        sendNotification(n5,"modulo",getOperand1() + "%" + getOperand2() + " = " + resultexp());
+                        getmodulo();
+                        sendNotification(n5,"modulo",getOperand1().toString() + "%" + getOperand2().toString() + " = " + resultexp());
                         break;
                     case "^":
-                        tvCalculate.setText(getpower().toString());
-                        sendNotification(n6,"power",getOperand1() + "^" + getOperand2() + " = " + resultexp());
+                        getpower();
+                        sendNotification(n6,"power",getOperand1().toString() + "^" + getOperand2().toString() + " = " + resultexp());
                         break;
                 }
 
@@ -151,44 +151,87 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private Double getSum(){
-        return (Double.valueOf(getOperand1()) + Double.valueOf(getOperand2()));
+    private boolean getType(){
+        boolean c = (getOperand1() - Math.floor(getOperand1()) == 0) && (getOperand2() - Math.floor(getOperand2()) == 0);
+        return c;
+
     }
 
-    private Double getmultiply(){
-        return (Double.valueOf(getOperand1()) * Double.valueOf(getOperand2()));
-    }
-    private Double getsubtract(){
-        return (Double.valueOf(getOperand1()) - Double.valueOf(getOperand2()));
+
+    private void getSum()
+    {
+        Double d1;
+        d1 = getOperand1() + getOperand2();
+        if(getType())
+        {
+            tvCalculate.setText(Integer.toString(d1.intValue()));
+        }
+        else
+            tvCalculate.setText(d1.toString());
     }
 
-    private  Double getmodulo(){
+    private void getmultiply(){
+        Double d1;
+        d1 = getOperand1() * getOperand2();
+        if(getType())
+        {
+            tvCalculate.setText(Integer.toString(d1.intValue()));
+        }
+        else
+            tvCalculate.setText(d1.toString());
+    }
+    private void getsubtract(){
+        Double d1;
+        d1 = getOperand1() - getOperand2();
+        if(getType())
+        {
+            tvCalculate.setText(Integer.toString(d1.intValue()));
+        }
+        else
+            tvCalculate.setText(d1.toString());
+    }
+
+    private  void getmodulo(){
         Double divres = 0.0;
         try {
-            divres = Double.valueOf(getOperand1()) % Double.valueOf(getOperand2());
+            divres = getOperand1() % getOperand2();
         }catch (RuntimeException re){
             Toast.makeText(this ,"division by 0 not possible",Toast.LENGTH_SHORT).show();
             re.printStackTrace();
 
         }
-        return divres;
+        if(divres - Math.floor(divres) == 0)
+        {
+            tvCalculate.setText(Integer.toString(divres.intValue()));
+        }
+        else
+            tvCalculate.setText(divres.toString());
     }
 
-    private Double getdivide(){
+    private void getdivide(){
 
         Double divres = 0.0;
         try {
-            divres = Double.valueOf(getOperand1()) / Double.valueOf(getOperand2());
+            divres = getOperand1() / getOperand2();
         }catch (RuntimeException re){
             Toast.makeText(this ,"division by 0 not possible",Toast.LENGTH_SHORT).show();
          re.printStackTrace();
 
         }
-        return divres;
+
+        if(divres - Math.floor(divres) == 0)
+        {
+            tvCalculate.setText(Integer.toString(divres.intValue()));
+        }
+        else
+            tvCalculate.setText(divres.toString());
     }
 
-    private Double getpower(){
-        return Math.pow(Double.valueOf(getOperand1()),Double.valueOf(getOperand1()));
+    private void getpower(){
+        if(getType())
+            tvCalculate.setText(Long.toString((long) Math.pow(getOperand1(),getOperand2())));
+        else
+            tvCalculate.setText(String.valueOf(Math.pow(getOperand1(),getOperand1())));
     }
 
     //@Override

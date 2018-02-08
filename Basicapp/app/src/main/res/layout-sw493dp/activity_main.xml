@@ -16,7 +16,7 @@
 
         <EditText
             android:id="@+id/et_operand1"
-            android:layout_width="110dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:hint="@string/Operand1"
             android:inputType="numberDecimal" />
@@ -32,7 +32,7 @@
 
         <EditText
             android:id="@+id/et_operand2"
-            android:layout_width="110dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:hint="@string/Operand2"
             android:inputType="numberDecimal" />
