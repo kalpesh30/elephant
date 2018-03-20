@@ -30,7 +30,7 @@ public class HttpHandler {
             URL url = new URL(reUrl);
 
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            //conn.setRequestMethod("GET");
+            conn.setRequestMethod("GET");
             InputStream in = new BufferedInputStream(conn.getInputStream());
             response = convertStreamToString(in);
         } catch (MalformedURLException e) {
@@ -63,7 +63,7 @@ public class HttpHandler {
                 e.printStackTrace();
             }
         }
-
+        Log.i("JSON" , sb.toString());
         return sb.toString();
     }
 }
