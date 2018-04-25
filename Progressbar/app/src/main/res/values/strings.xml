@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Progress bar</string>
+    <string name="selecting_this_will_open_a_sample_progress_dialog_box">Selecting this will open a sample progress dialog box</string>
+    <string name="start_progress_bar">Start Progress Bar</string>
+</resources>
